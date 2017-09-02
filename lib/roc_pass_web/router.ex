@@ -5,7 +5,9 @@ defmodule RocPassWeb.Router do
     plug :accepts, ["json"]
   end
 
-  scope "/api", RocPassWeb do
+  scope "/schedule", RocPassWeb do
     pipe_through :api
+
+    resources "/sports", SportController, except: [:new, :edit]
   end
 end
