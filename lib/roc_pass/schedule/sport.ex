@@ -1,11 +1,15 @@
 defmodule RocPass.Schedule.Sport do
   use Ecto.Schema
   import Ecto.Changeset
-  alias RocPass.Schedule.Sport
-
+  alias RocPass.Schedule.{
+    Event,
+    Sport
+  }
 
   schema "sports" do
     field :name, :string
+
+    has_many :events, Event
   end
 
   @doc false

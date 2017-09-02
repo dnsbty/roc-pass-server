@@ -163,7 +163,7 @@ defmodule RocPass.ScheduleTest do
       assert Schedule.get_opponent!(opponent.id) == opponent
     end
 
-    test "create_opponent/1 with valid data creates a opponent" do
+    test "create_opponent/1 with valid data creates an opponent" do
       assert {:ok, %Opponent{} = opponent} = Schedule.create_opponent(@valid_attrs)
       assert opponent.logo_key == "some logo_key"
       assert opponent.mascot == "some mascot"
@@ -195,9 +195,107 @@ defmodule RocPass.ScheduleTest do
       assert_raise Ecto.NoResultsError, fn -> Schedule.get_opponent!(opponent.id) end
     end
 
-    test "change_opponent/1 returns a opponent changeset" do
+    test "change_opponent/1 returns an opponent changeset" do
       opponent = opponent_fixture()
       assert %Ecto.Changeset{} = Schedule.change_opponent(opponent)
+    end
+  end
+
+  describe "events" do
+    alias RocPass.Schedule.Event
+
+    @valid_attrs %{start: ~N[2010-04-17 14:00:00.000000]}
+    @update_attrs %{start: ~N[2011-05-18 15:01:01.000000]}
+    @invalid_attrs %{start: nil}
+
+    @opponent_attrs %{logo_key: "some logo_key", mascot: "some mascot", name: "some name"}
+    @sport_attrs %{name: "some name"}
+    @venue_attrs %{address: "some address", city: "some city", latitude: "some lat", longitude: "some long", name: "some name", photo_key: "some photo_key", state: "st", zip_code: "some zip"}
+
+    def event_fixture(attrs \\ %{}) do
+      {:ok, event} =
+        attrs
+        |> Enum.into(@valid_attrs)
+        |> Schedule.create_event()
+
+      event
+    end
+
+    def relations do
+      %{
+        sport_id: sport_fixture(@sport_attrs).id,
+        opponent_id: opponent_fixture(@opponent_attrs).id,
+        venue_id: venue_fixture(@venue_attrs).id
+      }
+    end
+
+    test "list_events/0 returns all events" do
+      event =
+        relations()
+        |> event_fixture
+      assert Schedule.list_events() == [event]
+    end
+
+    test "get_event!/1 returns the event with given id" do
+      event =
+        relations()
+        |> event_fixture()
+      assert Schedule.get_event!(event.id) == event
+    end
+
+    test "create_event/1 with valid data creates an event" do
+      assert {:ok, %Event{} = event} =
+        relations()
+        |> Enum.into(@valid_attrs)
+        |> Schedule.create_event
+      assert event.start == ~N[2010-04-17 14:00:00.000000]
+    end
+
+    test "create_event/1 with invalid data returns error changeset" do
+      assert {:error, %Ecto.Changeset{}} =
+        relations()
+        |> Enum.into(@invalid_attrs)
+        |> Schedule.create_event
+    end
+
+    test "update_event/2 with valid data updates the event" do
+      event =
+        relations()
+        |> event_fixture
+      updated =
+        relations()
+        |> Enum.into(@update_attrs)
+
+      assert {:ok, event} = Schedule.update_event(event, updated)
+      assert %Event{} = event
+
+      assert event.start == ~N[2011-05-18 15:01:01.000000]
+      assert event.opponent_id == updated.opponent_id
+      assert event.sport_id == updated.sport_id
+      assert event.venue_id == updated.venue_id
+    end
+
+    test "update_event/2 with invalid data returns error changeset" do
+      event =
+        relations()
+        |> event_fixture
+      assert {:error, %Ecto.Changeset{}} = Schedule.update_event(event, @invalid_attrs)
+      assert event == Schedule.get_event!(event.id)
+    end
+
+    test "delete_event/1 deletes the event" do
+      event =
+        relations()
+        |> event_fixture()
+      assert {:ok, %Event{}} = Schedule.delete_event(event)
+      assert_raise Ecto.NoResultsError, fn -> Schedule.get_event!(event.id) end
+    end
+
+    test "change_event/1 returns an event changeset" do
+      event =
+        relations()
+        |> event_fixture
+      assert %Ecto.Changeset{} = Schedule.change_event(event)
     end
   end
 end

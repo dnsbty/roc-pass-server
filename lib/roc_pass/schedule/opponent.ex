@@ -1,13 +1,17 @@
 defmodule RocPass.Schedule.Opponent do
   use Ecto.Schema
   import Ecto.Changeset
-  alias RocPass.Schedule.Opponent
-
+  alias RocPass.Schedule.{
+    Event,
+    Opponent
+  }
 
   schema "opponents" do
-    field :name, :string
-    field :mascot, :string
-    field :logo_key, :string
+    field :name, :string, default: ""
+    field :mascot, :string, default: ""
+    field :logo_key, :string, default: ""
+
+    has_many :events, Event
 
     timestamps()
   end

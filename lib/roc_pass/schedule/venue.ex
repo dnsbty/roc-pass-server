@@ -1,8 +1,10 @@
 defmodule RocPass.Schedule.Venue do
   use Ecto.Schema
   import Ecto.Changeset
-  alias RocPass.Schedule.Venue
-
+  alias RocPass.Schedule.{
+    Event,
+    Venue
+  }
 
   schema "venues" do
     field :address, :string
@@ -13,6 +15,8 @@ defmodule RocPass.Schedule.Venue do
     field :photo_key, :string
     field :state, :string
     field :zip_code, :string
+
+    has_many :events, Event
 
     timestamps()
   end
