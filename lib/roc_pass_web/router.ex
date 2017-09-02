@@ -8,6 +8,7 @@ defmodule RocPassWeb.Router do
   scope "/schedule", RocPassWeb do
     pipe_through :api
 
+    resources "/events", EventController, except: [:new, :edit]
     resources "/opponents", OpponentController, except: [:new, :edit]
     resources "/sports", SportController, except: [:new, :edit]
     resources "/venues", VenueController, except: [:new, :edit]
