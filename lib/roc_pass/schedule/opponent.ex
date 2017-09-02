@@ -7,8 +7,8 @@ defmodule RocPass.Schedule.Opponent do
   }
 
   schema "opponents" do
-    field :name, :string, default: ""
-    field :mascot, :string, default: ""
+    field :name, :string
+    field :mascot, :string
     field :logo_key, :string, default: ""
 
     has_many :events, Event
@@ -20,6 +20,6 @@ defmodule RocPass.Schedule.Opponent do
   def changeset(%Opponent{} = opponent, attrs) do
     opponent
     |> cast(attrs, [:name, :mascot, :logo_key])
-    |> validate_required([:name, :mascot, :logo_key])
+    |> validate_required([:name, :mascot])
   end
 end

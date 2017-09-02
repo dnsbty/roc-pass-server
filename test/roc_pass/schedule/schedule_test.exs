@@ -233,14 +233,22 @@ defmodule RocPass.ScheduleTest do
       event =
         relations()
         |> event_fixture
-      assert Schedule.list_events() == [event]
+      [listed_event] = events = Schedule.list_events()
+      assert length(events) == 1
+      assert listed_event.id == event.id
     end
 
     test "get_event!/1 returns the event with given id" do
       event =
         relations()
         |> event_fixture()
-      assert Schedule.get_event!(event.id) == event
+      fetched_event = Schedule.get_event!(event.id)
+
+      assert %Event{} = fetched_event
+      assert fetched_event.start == ~N[2010-04-17 14:00:00.000000]
+      assert fetched_event.opponent_id == event.opponent_id
+      assert fetched_event.sport_id == event.sport_id
+      assert fetched_event.venue_id == event.venue_id
     end
 
     test "create_event/1 with valid data creates an event" do
@@ -280,7 +288,12 @@ defmodule RocPass.ScheduleTest do
         relations()
         |> event_fixture
       assert {:error, %Ecto.Changeset{}} = Schedule.update_event(event, @invalid_attrs)
-      assert event == Schedule.get_event!(event.id)
+      fetched_event = Schedule.get_event!(event.id)
+
+      assert fetched_event.start == event.start
+      assert fetched_event.opponent_id == event.opponent_id
+      assert fetched_event.sport_id == event.sport_id
+      assert fetched_event.venue_id == event.venue_id
     end
 
     test "delete_event/1 deletes the event" do

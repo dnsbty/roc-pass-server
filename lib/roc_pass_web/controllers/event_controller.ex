@@ -12,7 +12,8 @@ defmodule RocPassWeb.EventController do
   end
 
   def create(conn, %{"event" => event_params}) do
-    with {:ok, %Event{} = event} <- Schedule.create_event(event_params) do
+    with {:ok, %Event{} = event} <- Schedule.create_event(event_params),
+    event <- Schedule.get_event!(event.id) do
       conn
       |> put_status(:created)
       |> put_resp_header("location", event_path(conn, :show, event))

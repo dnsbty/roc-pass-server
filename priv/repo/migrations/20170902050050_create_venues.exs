@@ -9,8 +9,8 @@ defmodule RocPass.Repo.Migrations.CreateVenues do
       add :city, :string, null: false, default: "", size: 30
       add :state, :string, null: false, default: "", size: 2
       add :zip_code, :string, null: false, default: "", size: 10
-      add :latitude, :string, null: false, default: "", size: 10
-      add :longitude, :string, null: false, default: "", size: 10
+      add :latitude, :string, null: false, default: "", size: 12
+      add :longitude, :string, null: false, default: "", size: 12
 
       timestamps()
     end

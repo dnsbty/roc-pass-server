@@ -306,7 +306,19 @@ defmodule RocPass.Schedule do
 
   """
   def list_events do
-    Repo.all(Event)
+    Repo.all(
+      from(e in Event,
+        left_join: s in assoc(e, :sport),
+        left_join: o in assoc(e, :opponent),
+        left_join: v in assoc(e, :venue),
+        preload: [
+          sport: s,
+          opponent: o,
+          venue: v
+        ],
+        order_by: e.start
+      )
+    )
   end
 
   @doc """
@@ -323,7 +335,19 @@ defmodule RocPass.Schedule do
       ** (Ecto.NoResultsError)
 
   """
-  def get_event!(id), do: Repo.get!(Event, id)
+  def get_event!(id) do
+    Repo.get!(
+      from(e in Event,
+        left_join: s in assoc(e, :sport),
+        left_join: o in assoc(e, :opponent),
+        left_join: v in assoc(e, :venue),
+        preload: [
+          sport: s,
+          opponent: o,
+          venue: v
+        ]
+      ), id)
+  end
 
   @doc """
   Creates a event.

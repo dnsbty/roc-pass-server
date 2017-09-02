@@ -61,9 +61,12 @@ defmodule RocPassWeb.EventControllerTest do
       assert %{"id" => id} = json_response(conn, 201)["data"]
 
       conn = get conn, event_path(conn, :show, id)
-      assert json_response(conn, 200)["data"] == %{
-        "id" => id,
-        "start" => "2008-11-12T09:00:00.000000"}
+      response = json_response(conn, 200)["data"]
+      assert response["id"] == id
+      assert response["start"] == "2008-11-12T09:00:00.000000"
+      assert response["sport"]["id"] == create_params.sport_id
+      assert response["opponent"]["id"] == create_params.opponent_id
+      assert response["venue"]["id"] == create_params.venue_id
     end
 
     test "renders errors when data is invalid", %{conn: conn} do
@@ -80,9 +83,12 @@ defmodule RocPassWeb.EventControllerTest do
       assert %{"id" => ^id} = json_response(conn, 200)["data"]
 
       conn = get conn, event_path(conn, :show, id)
-      assert json_response(conn, 200)["data"] == %{
-        "id" => id,
-        "start" => "2012-04-23T15:00:00.000000"}
+      response = json_response(conn, 200)["data"]
+      assert response["id"] == event.id
+      assert response["start"] == "2012-04-23T15:00:00.000000"
+      assert response["sport"]["id"] == event.sport_id
+      assert response["opponent"]["id"] == event.opponent_id
+      assert response["venue"]["id"] == event.venue_id
     end
 
     test "renders errors when data is invalid", %{conn: conn, event: event} do

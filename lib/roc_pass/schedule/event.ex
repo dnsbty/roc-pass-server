@@ -24,5 +24,8 @@ defmodule RocPass.Schedule.Event do
     event
     |> cast(attrs, [:start, :sport_id, :opponent_id, :venue_id])
     |> validate_required([:start, :sport_id, :opponent_id, :venue_id])
+    |> foreign_key_constraint(:sport_id)
+    |> foreign_key_constraint(:opponent_id)
+    |> foreign_key_constraint(:venue_id)
   end
 end
