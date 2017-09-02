@@ -136,4 +136,68 @@ defmodule RocPass.ScheduleTest do
       assert %Ecto.Changeset{} = Schedule.change_venue(venue)
     end
   end
+
+  describe "opponents" do
+    alias RocPass.Schedule.Opponent
+
+    @valid_attrs %{logo_key: "some logo_key", mascot: "some mascot", name: "some name"}
+    @update_attrs %{logo_key: "some updated logo_key", mascot: "some updated mascot", name: "some updated name"}
+    @invalid_attrs %{logo_key: nil, mascot: nil, name: nil}
+
+    def opponent_fixture(attrs \\ %{}) do
+      {:ok, opponent} =
+        attrs
+        |> Enum.into(@valid_attrs)
+        |> Schedule.create_opponent()
+
+      opponent
+    end
+
+    test "list_opponents/0 returns all opponents" do
+      opponent = opponent_fixture()
+      assert Schedule.list_opponents() == [opponent]
+    end
+
+    test "get_opponent!/1 returns the opponent with given id" do
+      opponent = opponent_fixture()
+      assert Schedule.get_opponent!(opponent.id) == opponent
+    end
+
+    test "create_opponent/1 with valid data creates a opponent" do
+      assert {:ok, %Opponent{} = opponent} = Schedule.create_opponent(@valid_attrs)
+      assert opponent.logo_key == "some logo_key"
+      assert opponent.mascot == "some mascot"
+      assert opponent.name == "some name"
+    end
+
+    test "create_opponent/1 with invalid data returns error changeset" do
+      assert {:error, %Ecto.Changeset{}} = Schedule.create_opponent(@invalid_attrs)
+    end
+
+    test "update_opponent/2 with valid data updates the opponent" do
+      opponent = opponent_fixture()
+      assert {:ok, opponent} = Schedule.update_opponent(opponent, @update_attrs)
+      assert %Opponent{} = opponent
+      assert opponent.logo_key == "some updated logo_key"
+      assert opponent.mascot == "some updated mascot"
+      assert opponent.name == "some updated name"
+    end
+
+    test "update_opponent/2 with invalid data returns error changeset" do
+      opponent = opponent_fixture()
+      assert {:error, %Ecto.Changeset{}} = Schedule.update_opponent(opponent, @invalid_attrs)
+      assert opponent == Schedule.get_opponent!(opponent.id)
+    end
+
+    test "delete_opponent/1 deletes the opponent" do
+      opponent = opponent_fixture()
+      assert {:ok, %Opponent{}} = Schedule.delete_opponent(opponent)
+      assert_raise Ecto.NoResultsError, fn -> Schedule.get_opponent!(opponent.id) end
+    end
+
+    test "change_opponent/1 returns a opponent changeset" do
+      opponent = opponent_fixture()
+      assert %Ecto.Changeset{} = Schedule.change_opponent(opponent)
+    end
+  end
 end

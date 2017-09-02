@@ -197,4 +197,100 @@ defmodule RocPass.Schedule do
   def change_venue(%Venue{} = venue) do
     Venue.changeset(venue, %{})
   end
+
+  alias RocPass.Schedule.Opponent
+
+  @doc """
+  Returns the list of opponents.
+
+  ## Examples
+
+      iex> list_opponents()
+      [%Opponent{}, ...]
+
+  """
+  def list_opponents do
+    Repo.all(Opponent)
+  end
+
+  @doc """
+  Gets a single opponent.
+
+  Raises `Ecto.NoResultsError` if the Opponent does not exist.
+
+  ## Examples
+
+      iex> get_opponent!(123)
+      %Opponent{}
+
+      iex> get_opponent!(456)
+      ** (Ecto.NoResultsError)
+
+  """
+  def get_opponent!(id), do: Repo.get!(Opponent, id)
+
+  @doc """
+  Creates a opponent.
+
+  ## Examples
+
+      iex> create_opponent(%{field: value})
+      {:ok, %Opponent{}}
+
+      iex> create_opponent(%{field: bad_value})
+      {:error, %Ecto.Changeset{}}
+
+  """
+  def create_opponent(attrs \\ %{}) do
+    %Opponent{}
+    |> Opponent.changeset(attrs)
+    |> Repo.insert()
+  end
+
+  @doc """
+  Updates a opponent.
+
+  ## Examples
+
+      iex> update_opponent(opponent, %{field: new_value})
+      {:ok, %Opponent{}}
+
+      iex> update_opponent(opponent, %{field: bad_value})
+      {:error, %Ecto.Changeset{}}
+
+  """
+  def update_opponent(%Opponent{} = opponent, attrs) do
+    opponent
+    |> Opponent.changeset(attrs)
+    |> Repo.update()
+  end
+
+  @doc """
+  Deletes a Opponent.
+
+  ## Examples
+
+      iex> delete_opponent(opponent)
+      {:ok, %Opponent{}}
+
+      iex> delete_opponent(opponent)
+      {:error, %Ecto.Changeset{}}
+
+  """
+  def delete_opponent(%Opponent{} = opponent) do
+    Repo.delete(opponent)
+  end
+
+  @doc """
+  Returns an `%Ecto.Changeset{}` for tracking opponent changes.
+
+  ## Examples
+
+      iex> change_opponent(opponent)
+      %Ecto.Changeset{source: %Opponent{}}
+
+  """
+  def change_opponent(%Opponent{} = opponent) do
+    Opponent.changeset(opponent, %{})
+  end
 end
