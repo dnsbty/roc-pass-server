@@ -3,7 +3,7 @@ defmodule RocPass.Repo.Migrations.CreateSports do
 
   def change do
     create table(:sports) do
-      add :name, :string
+      add :name, :string, null: false, default: ""
     end
 
   end
