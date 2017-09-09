@@ -16,10 +16,13 @@ defmodule RocPassWeb.EventView do
   end
 
   def render("event.json", %{event: event}) do
-    %{id: event.id,
+    %{
+      id: event.id,
       sport: render_one(event.sport, SportView, "sport.json"),
       opponent: render_one(event.opponent, OpponentView, "opponent.json"),
       venue: render_one(event.venue, VenueView, "venue.json"),
-      start: event.start}
+      start: event.start,
+      date_only: event.date_only
+    }
   end
 end

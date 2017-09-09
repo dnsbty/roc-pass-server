@@ -11,6 +11,7 @@ defmodule RocPass.Schedule.Event do
 
   schema "events" do
     field :start, :naive_datetime
+    field :date_only, :boolean, default: true
 
     belongs_to :sport, Sport
     belongs_to :opponent, Opponent
@@ -22,7 +23,7 @@ defmodule RocPass.Schedule.Event do
   @doc false
   def changeset(%Event{} = event, attrs) do
     event
-    |> cast(attrs, [:start, :sport_id, :opponent_id, :venue_id])
+    |> cast(attrs, [:start, :sport_id, :opponent_id, :venue_id, :date_only])
     |> validate_required([:start, :sport_id, :opponent_id, :venue_id])
     |> foreign_key_constraint(:sport_id)
     |> foreign_key_constraint(:opponent_id)
