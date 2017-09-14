@@ -25,4 +25,12 @@ defmodule RocPassWeb.EventView do
       date_only: event.date_only
     }
   end
+
+  def render("last_updated.json", %{last_updated: last_updated}) do
+    %{
+      data: %{
+        last_updated: last_updated
+      }
+    }
+  end
 end

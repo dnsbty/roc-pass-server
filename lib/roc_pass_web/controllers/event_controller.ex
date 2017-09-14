@@ -40,4 +40,9 @@ defmodule RocPassWeb.EventController do
       send_resp(conn, :no_content, "")
     end
   end
+
+  def last_updated(conn, _params) do
+    last_updated = Schedule.get_last_update_time!()
+    render(conn, "last_updated.json", last_updated: last_updated)
+  end
 end

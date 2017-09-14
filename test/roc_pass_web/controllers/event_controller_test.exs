@@ -109,6 +109,19 @@ defmodule RocPassWeb.EventControllerTest do
     end
   end
 
+  describe "get last update" do
+    setup [:create_event]
+
+    test "gets the update time of the last updated item", %{conn: conn} do
+      [event] = Schedule.list_events
+      
+      conn = get conn, event_path(conn, :last_updated)
+      updated_at = json_response(conn, 200)["data"]["last_updated"]
+
+      assert updated_at == NaiveDateTime.to_iso8601(event.updated_at)
+    end
+  end
+
   defp create_event(_) do
     event = fixture(:event)
     {:ok, event: event}

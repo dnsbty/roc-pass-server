@@ -413,4 +413,33 @@ defmodule RocPass.Schedule do
   def change_event(%Event{} = event) do
     Event.changeset(event, %{})
   end
+
+  @doc """
+  Gets the time of the last schedule update.
+
+  Raises `Ecto.NoResultsError` if no updates exist.
+
+  ## Examples
+
+      iex> get_last_update_time!()
+      %DateTime{}
+
+      iex> get_last_update_time!()
+      ** (Ecto.NoResultsError)
+
+  """
+  def get_last_update_time!() do
+    query = """
+      SELECT MAX(u) FROM (
+        SELECT MAX(updated_at) AS u FROM events
+        UNION SELECT MAX(updated_at) AS u FROM sports
+        UNION SELECT MAX(updated_at) AS u FROM opponents
+        UNION SELECT MAX(updated_at) AS u FROM venues
+      ) sub;
+    """
+    with {:ok, %{rows: [[result]]}} <- Ecto.Adapters.SQL.query(Repo, query),
+      {:ok, datetime} <- Ecto.DateTime.load(result) do
+        datetime
+    end
+  end
 end

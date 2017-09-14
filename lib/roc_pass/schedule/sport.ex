@@ -10,6 +10,8 @@ defmodule RocPass.Schedule.Sport do
     field :name, :string
 
     has_many :events, Event
+
+    timestamps()
   end
 
   @doc false
