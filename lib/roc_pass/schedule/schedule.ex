@@ -437,7 +437,7 @@ defmodule RocPass.Schedule do
         UNION SELECT MAX(updated_at) AS u FROM venues
       ) sub;
     """
-    with {:ok, %{rows: [[result]]}} <- Ecto.Adapters.SQL.query(Repo, query),
+    with {:ok, %{rows: [[result]]}} <- Repo.query(query),
       {:ok, datetime} <- Ecto.DateTime.load(result) do
         datetime
     end
