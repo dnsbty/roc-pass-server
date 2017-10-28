@@ -23,6 +23,13 @@ defmodule RocPassWeb do
       import Plug.Conn
       import RocPassWeb.Router.Helpers
       import RocPassWeb.Gettext
+      alias RocPass.Schedule
+      alias RocPass.Schedule.{
+        Event,
+        Opponent,
+        Sport,
+        Venue
+      }
     end
   end
 
@@ -37,6 +44,12 @@ defmodule RocPassWeb do
       import RocPassWeb.Router.Helpers
       import RocPassWeb.ErrorHelpers
       import RocPassWeb.Gettext
+      alias RocPassWeb.{
+        EventView,
+        OpponentView,
+        SportView,
+        VenueView
+      }
     end
   end
 

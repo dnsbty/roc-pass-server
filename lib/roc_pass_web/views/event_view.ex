@@ -1,11 +1,5 @@
 defmodule RocPassWeb.EventView do
   use RocPassWeb, :view
-  alias RocPassWeb.{
-    EventView,
-    OpponentView,
-    SportView,
-    VenueView
-  }
 
   def render("index.json", %{events: events}) do
     %{data: render_many(events, EventView, "event.json")}
@@ -19,10 +13,12 @@ defmodule RocPassWeb.EventView do
     %{
       id: event.id,
       sport: render_one(event.sport, SportView, "sport.json"),
+      is_home_game: event.is_home_game,
       opponent: render_one(event.opponent, OpponentView, "opponent.json"),
       venue: render_one(event.venue, VenueView, "venue.json"),
       start: event.start,
-      date_only: event.date_only
+      date_only: event.date_only,
+      tv_station: event.tv_station
     }
   end
 

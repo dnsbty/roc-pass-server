@@ -1,6 +1,5 @@
 defmodule RocPassWeb.SportView do
   use RocPassWeb, :view
-  alias RocPassWeb.SportView
 
   def render("index.json", %{sports: sports}) do
     %{data: render_many(sports, SportView, "sport.json")}

@@ -12,6 +12,8 @@ defmodule RocPass.Schedule.Event do
   schema "events" do
     field :start, :naive_datetime
     field :date_only, :boolean, default: true
+    field :is_home_game, :boolean, default: true
+    field :tv_station, :string, default: ""
 
     belongs_to :sport, Sport
     belongs_to :opponent, Opponent

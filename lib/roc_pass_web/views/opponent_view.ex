@@ -1,6 +1,5 @@
 defmodule RocPassWeb.OpponentView do
   use RocPassWeb, :view
-  alias RocPassWeb.OpponentView
 
   def render("index.json", %{opponents: opponents}) do
     %{data: render_many(opponents, OpponentView, "opponent.json")}

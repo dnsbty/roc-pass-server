@@ -1,6 +1,5 @@
 defmodule RocPassWeb.VenueView do
   use RocPassWeb, :view
-  alias RocPassWeb.VenueView
 
   def render("index.json", %{venues: venues}) do
     %{data: render_many(venues, VenueView, "venue.json")}
